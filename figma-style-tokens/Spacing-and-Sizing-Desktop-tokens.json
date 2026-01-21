@@ -1,0 +1,167 @@
+{
+  "Container": {
+    "container-large": {
+      "$type": "number",
+      "$value": 1280,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59111",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "container-medium": {
+      "$type": "number",
+      "$value": 1024,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59110",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "container-small": {
+      "$type": "number",
+      "$value": 768,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59109",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    }
+  },
+  "Max Width": {
+    "max-width-xxlarge": {
+      "$type": "number",
+      "$value": 1280,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59118",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "max-width-xlarge": {
+      "$type": "number",
+      "$value": 1024,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59117",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "max-width-large": {
+      "$type": "number",
+      "$value": 768,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59114",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "max-width-medium": {
+      "$type": "number",
+      "$value": 560,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59113",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "max-width-small": {
+      "$type": "number",
+      "$value": 480,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59116",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "max-width-xsmall": {
+      "$type": "number",
+      "$value": 400,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59115",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "max-width-xxsmall": {
+      "$type": "number",
+      "$value": 320,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59112",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.isOverride": true
+      }
+    }
+  },
+  "Page Padding": {
+    "padding-global": {
+      "$type": "number",
+      "$value": 64,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59122",
+        "com.figma.scopes": [
+          "GAP"
+        ],
+        "com.figma.isOverride": true
+      }
+    }
+  },
+  "Section Padding": {
+    "padding-section-large": {
+      "$type": "number",
+      "$value": 112,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59121",
+        "com.figma.scopes": [
+          "GAP"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "padding-section-medium": {
+      "$type": "number",
+      "$value": 80,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59120",
+        "com.figma.scopes": [
+          "GAP"
+        ],
+        "com.figma.isOverride": true
+      }
+    },
+    "padding-section-small": {
+      "$type": "number",
+      "$value": 48,
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6745:59119",
+        "com.figma.scopes": [
+          "GAP"
+        ],
+        "com.figma.isOverride": true
+      }
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "Desktop"
+  }
+}

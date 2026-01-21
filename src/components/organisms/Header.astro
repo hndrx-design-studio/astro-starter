@@ -1,0 +1,171 @@
+---
+/**
+ * Header Component (Organism)
+ *
+ * A site header with logo, navigation, and optional actions.
+ * Fully customizable through slots and CSS variables.
+ *
+ * @example
+ * <Header siteName="My Site">
+ *   <nav slot="nav">
+ *     <NavLink href="/">Home</NavLink>
+ *     <NavLink href="/about">About</NavLink>
+ *   </nav>
+ *   <div slot="actions">
+ *     <Button>Sign In</Button>
+ *   </div>
+ * </Header>
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --header-bg, --header-height, --header-padding, --header-border-color
+ */
+
+interface Props {
+  /** Site name/brand text */
+  siteName?: string;
+  /** Logo image URL */
+  logoSrc?: string;
+  /** Logo alt text */
+  logoAlt?: string;
+  /** Link for logo/site name */
+  homeHref?: string;
+  /** Sticky header */
+  sticky?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  siteName = 'Site Name',
+  logoSrc,
+  logoAlt = 'Site logo',
+  homeHref = '/',
+  sticky = false,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const hasNav = Astro.slots.has('nav');
+const hasActions = Astro.slots.has('actions');
+
+const classes = [
+  'header',
+  sticky && 'header--sticky',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<header class={classes} {...rest}>
+  <div class="header__container">
+    <!-- Logo / Brand -->
+    <a href={homeHref} class="header__brand">
+      {logoSrc ? (
+        <img src={logoSrc} alt={logoAlt} class="header__logo" />
+      ) : null}
+      {siteName && (
+        <span class="header__site-name">{siteName}</span>
+      )}
+    </a>
+
+    <!-- Navigation -->
+    {hasNav && (
+      <nav class="header__nav">
+        <slot name="nav" />
+      </nav>
+    )}
+
+    <!-- Actions (buttons, etc.) -->
+    {hasActions && (
+      <div class="header__actions">
+        <slot name="actions" />
+      </div>
+    )}
+  </div>
+</header>
+
+<style>
+  .header {
+    width: 100%;
+    background-color: var(--header-bg, var(--color-bg-primary));
+    border-bottom: var(--header-border-width, 1px) solid
+                   var(--header-border-color, var(--color-border-default));
+  }
+
+  .header--sticky {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    backdrop-filter: var(--header-backdrop-filter, blur(8px));
+    background-color: var(--header-sticky-bg, rgba(255, 255, 255, 0.9));
+  }
+
+  .header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--header-gap, var(--space-6));
+
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: var(--header-padding, var(--space-4) var(--container-padding));
+    min-height: var(--header-height, 64px);
+  }
+
+  /* Brand / Logo */
+  .header__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--header-brand-gap, var(--space-3));
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+  }
+
+  .header__brand:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .header__logo {
+    height: var(--header-logo-height, 32px);
+    width: auto;
+  }
+
+  .header__site-name {
+    font-family: var(--header-font-family, var(--font-family-sans));
+    font-size: var(--header-site-name-size, var(--font-size-xl));
+    font-weight: var(--header-site-name-weight, var(--font-weight-bold));
+    color: var(--header-site-name-color, var(--color-text-primary));
+  }
+
+  /* Navigation */
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--header-nav-gap, var(--space-1));
+  }
+
+  /* Nav items layout (for child elements) */
+  .header__nav :global(a),
+  .header__nav :global(button) {
+    /* Allow NavLink styles to apply */
+  }
+
+  /* Actions */
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--header-actions-gap, var(--space-3));
+    flex-shrink: 0;
+  }
+
+  /* Responsive: Hide nav on mobile (implement hamburger menu as needed) */
+  @media (max-width: 767px) {
+    .header__nav {
+      display: var(--header-nav-mobile-display, none);
+    }
+  }
+</style>

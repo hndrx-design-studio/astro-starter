@@ -1,0 +1,188 @@
+---
+/**
+ * Card Component (Molecule)
+ *
+ * A flexible card container for grouping related content.
+ * Uses slots for maximum flexibility in content arrangement.
+ *
+ * @example
+ * <Card>
+ *   <div slot="header">Card Header</div>
+ *   <p>Card content goes here</p>
+ *   <div slot="footer">Card Footer</div>
+ * </Card>
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --card-bg, --card-padding, --card-border-radius
+ * --card-shadow, --card-border-color, --card-border-width
+ */
+
+interface Props {
+  /** Card style variant */
+  variant?: 'elevated' | 'outlined' | 'filled';
+  /** Remove padding (useful for images) */
+  noPadding?: boolean;
+  /** Make card interactive (clickable) */
+  interactive?: boolean;
+  /** Link href (makes entire card clickable) */
+  href?: string;
+  /** Additional CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  variant = 'elevated',
+  noPadding = false,
+  interactive = false,
+  href,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const isLink = !!href;
+const Element = isLink ? 'a' : 'article';
+
+const classes = [
+  'card',
+  `card--${variant}`,
+  noPadding && 'card--no-padding',
+  (interactive || isLink) && 'card--interactive',
+  className,
+].filter(Boolean).join(' ');
+
+const hasHeader = Astro.slots.has('header');
+const hasFooter = Astro.slots.has('footer');
+const hasMedia = Astro.slots.has('media');
+---
+
+<Element class={classes} href={isLink ? href : undefined} {...rest}>
+  {hasMedia && (
+    <div class="card__media">
+      <slot name="media" />
+    </div>
+  )}
+
+  {hasHeader && (
+    <div class="card__header">
+      <slot name="header" />
+    </div>
+  )}
+
+  <div class="card__body">
+    <slot />
+  </div>
+
+  {hasFooter && (
+    <div class="card__footer">
+      <slot name="footer" />
+    </div>
+  )}
+</Element>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    /* Shape */
+    border-radius: var(--card-border-radius, var(--radius-lg));
+
+    /* Default padding */
+    --card-section-padding: var(--card-padding, var(--space-6));
+  }
+
+  /* ============================================
+     Variant Styles
+     ============================================ */
+
+  .card--elevated {
+    background-color: var(--card-elevated-bg, var(--color-bg-primary));
+    box-shadow: var(--card-elevated-shadow, var(--shadow-md));
+  }
+
+  .card--outlined {
+    background-color: var(--card-outlined-bg, var(--color-bg-primary));
+    border: var(--card-border-width, 1px) solid
+            var(--card-border-color, var(--color-border-default));
+  }
+
+  .card--filled {
+    background-color: var(--card-filled-bg, var(--color-bg-secondary));
+  }
+
+  /* ============================================
+     Interactive State
+     ============================================ */
+
+  .card--interactive {
+    cursor: pointer;
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast),
+      border-color var(--transition-fast);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card--interactive:hover {
+    transform: var(--card-hover-transform, translateY(-2px));
+  }
+
+  .card--elevated.card--interactive:hover {
+    box-shadow: var(--card-hover-shadow, var(--shadow-lg));
+  }
+
+  .card--outlined.card--interactive:hover {
+    border-color: var(--card-hover-border-color, var(--color-border-strong));
+  }
+
+  .card--interactive:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+
+  /* ============================================
+     Card Sections
+     ============================================ */
+
+  .card__media {
+    /* Media slot has no padding by default */
+  }
+
+  .card__media :global(img),
+  .card__media :global(video) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .card__header {
+    padding: var(--card-section-padding);
+    padding-bottom: 0;
+  }
+
+  .card__body {
+    padding: var(--card-section-padding);
+    flex: 1;
+  }
+
+  .card__footer {
+    padding: var(--card-section-padding);
+    padding-top: 0;
+  }
+
+  /* ============================================
+     Modifiers
+     ============================================ */
+
+  .card--no-padding {
+    --card-section-padding: 0;
+  }
+
+  .card--no-padding .card__body {
+    padding: var(--card-padding, var(--space-6));
+  }
+</style>

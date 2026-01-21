@@ -1,0 +1,101 @@
+---
+/**
+ * Text Component (Atom)
+ *
+ * A polymorphic text component for consistent typography.
+ * Supports various text styles and semantic HTML elements.
+ *
+ * @example
+ * <Text>Default paragraph text</Text>
+ * <Text as="span" variant="small">Small inline text</Text>
+ * <Text as="h1" variant="heading-1">Page Title</Text>
+ *
+ * @customization
+ * Typography styles are controlled via the design system.
+ * See typography.css for available classes and variables.
+ */
+
+interface Props {
+  /** HTML element to render */
+  as?: 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'label' | 'strong' | 'em';
+  /** Typography variant */
+  variant?:
+    | 'body-base'
+    | 'body-large'
+    | 'body-small'
+    | 'body-xs'
+    | 'heading-1'
+    | 'heading-2'
+    | 'heading-3'
+    | 'heading-4'
+    | 'heading-5'
+    | 'heading-6'
+    | 'display-1'
+    | 'display-2'
+    | 'label'
+    | 'caption'
+    | 'overline';
+  /** Text color using semantic tokens */
+  color?: 'primary' | 'secondary' | 'tertiary' | 'inherit';
+  /** Text alignment */
+  align?: 'left' | 'center' | 'right';
+  /** Balance text wrapping (for headings) */
+  balance?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  as: Element = 'p',
+  variant = 'body-base',
+  color = 'inherit',
+  align,
+  balance = false,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+// Map variant to CSS class
+const variantClass = variant.replace(/-/g, '-');
+
+const classes = [
+  variantClass,
+  color !== 'inherit' && `text-color--${color}`,
+  align && `text-align--${align}`,
+  balance && 'text-balance',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<Element class={classes} {...rest}>
+  <slot />
+</Element>
+
+<style>
+  /* Color variants */
+  .text-color--primary {
+    color: var(--color-text-primary);
+  }
+
+  .text-color--secondary {
+    color: var(--color-text-secondary);
+  }
+
+  .text-color--tertiary {
+    color: var(--color-text-tertiary);
+  }
+
+  /* Alignment */
+  .text-align--left {
+    text-align: left;
+  }
+
+  .text-align--center {
+    text-align: center;
+  }
+
+  .text-align--right {
+    text-align: right;
+  }
+</style>

@@ -1,0 +1,195 @@
+---
+/**
+ * Section Component (Organism)
+ *
+ * A page section wrapper with optional heading and container.
+ * Useful for creating consistent page layouts.
+ *
+ * @example
+ * <Section title="Features" subtitle="What we offer">
+ *   <div class="grid grid-cols-3 gap-6">
+ *     <Card>Feature 1</Card>
+ *     <Card>Feature 2</Card>
+ *     <Card>Feature 3</Card>
+ *   </div>
+ * </Section>
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --section-padding-y, --section-bg, --section-heading-*
+ */
+
+interface Props {
+  /** Section title */
+  title?: string;
+  /** Section subtitle/description */
+  subtitle?: string;
+  /** Background color variant */
+  background?: 'default' | 'muted' | 'primary' | 'dark';
+  /** Section size (affects vertical padding) */
+  size?: 'sm' | 'md' | 'lg';
+  /** Center the heading */
+  centerHeading?: boolean;
+  /** Use container for content */
+  contained?: boolean;
+  /** Container width variant */
+  containerWidth?: 'default' | 'narrow' | 'wide' | 'full';
+  /** HTML element for the section */
+  as?: 'section' | 'div' | 'article' | 'aside';
+  /** Additional CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  title,
+  subtitle,
+  background = 'default',
+  size = 'md',
+  centerHeading = false,
+  contained = true,
+  containerWidth = 'default',
+  as: Element = 'section',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const hasHeader = title || subtitle || Astro.slots.has('header');
+
+const classes = [
+  'section',
+  `section--${size}`,
+  `section--bg-${background}`,
+  className,
+].filter(Boolean).join(' ');
+
+const containerClasses = [
+  'section__container',
+  contained && 'container',
+  containerWidth === 'narrow' && 'container-narrow',
+  containerWidth === 'wide' && 'container-wide',
+  containerWidth === 'full' && 'container-full',
+].filter(Boolean).join(' ');
+
+const headerClasses = [
+  'section__header',
+  centerHeading && 'section__header--center',
+].filter(Boolean).join(' ');
+---
+
+<Element class={classes} {...rest}>
+  <div class={containerClasses}>
+    {hasHeader && (
+      <div class={headerClasses}>
+        {Astro.slots.has('header') ? (
+          <slot name="header" />
+        ) : (
+          <>
+            {title && <h2 class="section__title">{title}</h2>}
+            {subtitle && <p class="section__subtitle">{subtitle}</p>}
+          </>
+        )}
+      </div>
+    )}
+
+    <div class="section__content">
+      <slot />
+    </div>
+  </div>
+</Element>
+
+<style>
+  .section {
+    width: 100%;
+  }
+
+  /* ============================================
+     Size Variants
+     ============================================ */
+
+  .section--sm {
+    padding-top: var(--section-padding-y-sm, var(--space-12));
+    padding-bottom: var(--section-padding-y-sm, var(--space-12));
+  }
+
+  .section--md {
+    padding-top: var(--section-padding-y-md, var(--space-16));
+    padding-bottom: var(--section-padding-y-md, var(--space-16));
+  }
+
+  .section--lg {
+    padding-top: var(--section-padding-y-lg, var(--space-24));
+    padding-bottom: var(--section-padding-y-lg, var(--space-24));
+  }
+
+  /* ============================================
+     Background Variants
+     ============================================ */
+
+  .section--bg-default {
+    background-color: var(--section-bg-default, var(--color-bg-primary));
+  }
+
+  .section--bg-muted {
+    background-color: var(--section-bg-muted, var(--color-bg-secondary));
+  }
+
+  .section--bg-primary {
+    background-color: var(--section-bg-primary, var(--color-primary-600));
+    color: var(--section-color-primary, var(--color-neutral-0));
+  }
+
+  .section--bg-dark {
+    background-color: var(--section-bg-dark, var(--color-neutral-900));
+    color: var(--section-color-dark, var(--color-neutral-100));
+  }
+
+  /* ============================================
+     Header
+     ============================================ */
+
+  .section__header {
+    margin-bottom: var(--section-header-margin, var(--space-10));
+  }
+
+  .section__header--center {
+    text-align: center;
+    max-width: var(--section-header-max-width, 65ch);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section__title {
+    font-family: var(--section-title-font-family, var(--font-family-sans));
+    font-size: var(--section-title-font-size, var(--font-size-3xl));
+    font-weight: var(--section-title-font-weight, var(--font-weight-bold));
+    line-height: var(--section-title-line-height, var(--line-height-tight));
+    margin-bottom: var(--section-title-margin, var(--space-4));
+  }
+
+  .section__subtitle {
+    font-size: var(--section-subtitle-font-size, var(--font-size-lg));
+    color: var(--section-subtitle-color, var(--color-text-secondary));
+    max-width: var(--section-subtitle-max-width, 55ch);
+    margin: 0;
+  }
+
+  .section__header--center .section__subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Adjust subtitle color for dark backgrounds */
+  .section--bg-primary .section__subtitle,
+  .section--bg-dark .section__subtitle {
+    color: var(--section-subtitle-color-inverse, rgba(255, 255, 255, 0.8));
+  }
+
+  /* ============================================
+     Content
+     ============================================ */
+
+  .section__content {
+    /* Content takes full width by default */
+  }
+</style>

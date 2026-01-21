@@ -1,0 +1,170 @@
+---
+/**
+ * FormField Component (Molecule)
+ *
+ * Combines a label, input, and helper/error text into a complete form field.
+ * A composition of atomic components for forms.
+ *
+ * @example
+ * <FormField
+ *   label="Email Address"
+ *   name="email"
+ *   type="email"
+ *   placeholder="you@example.com"
+ *   required
+ * />
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --field-gap, --field-label-*, --field-helper-*, --field-error-*
+ */
+
+import Input from '../atoms/Input.astro';
+
+interface Props {
+  /** Field label text */
+  label: string;
+  /** Input name attribute */
+  name: string;
+  /** Input type */
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date';
+  /** Render as textarea */
+  as?: 'input' | 'textarea';
+  /** Placeholder text */
+  placeholder?: string;
+  /** Input value */
+  value?: string | number;
+  /** Required field */
+  required?: boolean;
+  /** Disabled state */
+  disabled?: boolean;
+  /** Helper text below input */
+  helperText?: string;
+  /** Error message (shows in error state) */
+  errorText?: string;
+  /** Hide label visually (still accessible) */
+  hideLabel?: boolean;
+  /** Input size variant */
+  size?: 'sm' | 'md' | 'lg';
+  /** Additional CSS classes */
+  class?: string;
+  /** Number of rows (for textarea) */
+  rows?: number;
+  [key: string]: any;
+}
+
+const {
+  label,
+  name,
+  type = 'text',
+  as = 'input',
+  placeholder,
+  value,
+  required = false,
+  disabled = false,
+  helperText,
+  errorText,
+  hideLabel = false,
+  size = 'md',
+  class: className = '',
+  rows,
+  ...rest
+} = Astro.props;
+
+const hasError = !!errorText;
+const fieldId = `field-${name}`;
+const helperId = helperText || errorText ? `${fieldId}-helper` : undefined;
+
+const classes = [
+  'form-field',
+  hasError && 'form-field--error',
+  disabled && 'form-field--disabled',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<div class={classes}>
+  <label
+    for={fieldId}
+    class:list={['form-field__label', hideLabel && 'visually-hidden']}
+  >
+    {label}
+    {required && <span class="form-field__required" aria-hidden="true">*</span>}
+  </label>
+
+  <Input
+    id={fieldId}
+    name={name}
+    type={type}
+    as={as}
+    placeholder={placeholder}
+    value={value}
+    required={required}
+    disabled={disabled}
+    error={hasError}
+    size={size}
+    aria-describedby={helperId}
+    aria-invalid={hasError}
+    rows={rows}
+    {...rest}
+  />
+
+  {(helperText || errorText) && (
+    <p id={helperId} class="form-field__helper">
+      {errorText || helperText}
+    </p>
+  )}
+</div>
+
+<style>
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--field-gap, var(--space-2));
+  }
+
+  .form-field__label {
+    font-family: var(--field-label-font-family, var(--font-family-sans));
+    font-size: var(--field-label-font-size, var(--font-size-sm));
+    font-weight: var(--field-label-font-weight, var(--font-weight-medium));
+    color: var(--field-label-color, var(--color-text-primary));
+  }
+
+  .form-field__required {
+    color: var(--field-required-color, var(--color-error-500));
+    margin-left: var(--space-1);
+  }
+
+  .form-field__helper {
+    font-size: var(--field-helper-font-size, var(--font-size-sm));
+    color: var(--field-helper-color, var(--color-text-secondary));
+    margin: 0;
+  }
+
+  /* Error state */
+  .form-field--error .form-field__label {
+    color: var(--field-error-label-color, var(--color-error-700));
+  }
+
+  .form-field--error .form-field__helper {
+    color: var(--field-error-color, var(--color-error-500));
+  }
+
+  /* Disabled state */
+  .form-field--disabled .form-field__label {
+    opacity: var(--field-disabled-opacity, 0.5);
+  }
+
+  /* Visually hidden but accessible */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

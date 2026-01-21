@@ -1,16 +1,128 @@
 ---
-
+import BaseLayout from '../components/templates/BaseLayout.astro';
+import Section from '../components/organisms/Section.astro';
+import Card from '../components/molecules/Card.astro';
+import Button from '../components/atoms/Button.astro';
+import Badge from '../components/atoms/Badge.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Home">
+  <main>
+    <!-- Hero Section -->
+    <Section size="lg" centerHeading>
+      <div slot="header">
+        <Badge variant="primary" class="mb-4">Vanilla CSS Design System</Badge>
+        <h1 class="display-1 mb-4">Build Faster with<br />Astro Components</h1>
+        <p class="body-large" style="max-width: 55ch; margin: 0 auto;">
+          A minimal, unstyled component library for Astro with an atomic design
+          structure. Customize everything through CSS variables.
+        </p>
+      </div>
+
+      <div class="flex justify-center gap-4">
+        <Button variant="primary" size="lg">Get Started</Button>
+        <Button variant="secondary" size="lg" as="a" href="/style-guide">
+          View Style Guide
+        </Button>
+      </div>
+    </Section>
+
+    <!-- Features Section -->
+    <Section
+      title="Why This Starter?"
+      subtitle="Everything you need to build beautiful, consistent interfaces."
+      background="muted"
+      centerHeading
+    >
+      <div class="grid md:grid-cols-3 gap-6">
+        <Card>
+          <h3 class="heading-4 mb-2">Atomic Design</h3>
+          <p class="body-small">
+            Components organized into atoms, molecules, organisms, and templates
+            for maximum reusability and consistency.
+          </p>
+        </Card>
+
+        <Card>
+          <h3 class="heading-4 mb-2">CSS Variables</h3>
+          <p class="body-small">
+            Every component is customizable through CSS custom properties.
+            Override tokens to match your brand instantly.
+          </p>
+        </Card>
+
+        <Card>
+          <h3 class="heading-4 mb-2">No Dependencies</h3>
+          <p class="body-small">
+            Pure vanilla CSS with no framework dependencies. Just Astro and your
+            creativity. No build complexity.
+          </p>
+        </Card>
+      </div>
+    </Section>
+
+    <!-- How It Works Section -->
+    <Section
+      title="How It Works"
+      subtitle="Copy components, customize tokens, and build your site."
+      centerHeading
+    >
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div class="stack-lg">
+          <div>
+            <Badge class="mb-2">Step 1</Badge>
+            <h3 class="heading-5 mb-2">Set Up Your Design Tokens</h3>
+            <p class="body-base">
+              Define your colors, typography, spacing, and other design tokens in
+              <code>tokens.css</code>. These variables cascade to all components.
+            </p>
+          </div>
+
+          <div>
+            <Badge class="mb-2">Step 2</Badge>
+            <h3 class="heading-5 mb-2">Copy Components You Need</h3>
+            <p class="body-base">
+              Browse the component library and copy the ones you need. Each
+              component is self-contained and documented.
+            </p>
+          </div>
+
+          <div>
+            <Badge class="mb-2">Step 3</Badge>
+            <h3 class="heading-5 mb-2">Customize Per-Component</h3>
+            <p class="body-base">
+              Override component-specific variables to fine-tune individual
+              components without affecting others.
+            </p>
+          </div>
+        </div>
+
+        <Card variant="filled" class="p-8">
+          <pre class="mb-0"><code>/* Override button styles globally */
+:root {'{'}
+  --btn-primary-bg: #6366f1;
+  --btn-border-radius: 9999px;
+  --btn-font-weight: 600;
+{'}'}</code></pre>
+        </Card>
+      </div>
+    </Section>
+
+    <!-- CTA Section -->
+    <Section background="primary" size="lg" centerHeading>
+      <h2 class="heading-2 mb-4">Ready to Get Started?</h2>
+      <p class="body-large mb-8" style="opacity: 0.9;">
+        Explore the style guide to see all available components and design tokens.
+      </p>
+      <Button
+        variant="secondary"
+        size="lg"
+        as="a"
+        href="/style-guide"
+        style="--btn-secondary-bg: white; --btn-secondary-color: var(--color-primary-700);"
+      >
+        View Style Guide
+      </Button>
+    </Section>
+  </main>
+</BaseLayout>

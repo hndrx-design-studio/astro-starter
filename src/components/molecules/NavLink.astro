@@ -1,0 +1,107 @@
+---
+/**
+ * NavLink Component (Molecule)
+ *
+ * A navigation link with active state detection.
+ * Automatically highlights when the current URL matches.
+ *
+ * @example
+ * <NavLink href="/">Home</NavLink>
+ * <NavLink href="/about">About</NavLink>
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --nav-link-color, --nav-link-hover-color, --nav-link-active-color
+ * --nav-link-padding, --nav-link-font-weight
+ */
+
+interface Props {
+  /** Link destination */
+  href: string;
+  /** Match exact path only (default: true for home, false for others) */
+  exact?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  href,
+  exact,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+// Get current URL path
+const currentPath = Astro.url.pathname;
+
+// Determine if this link is active
+const isExact = exact ?? href === '/';
+const isActive = isExact
+  ? currentPath === href
+  : currentPath.startsWith(href);
+
+const classes = [
+  'nav-link',
+  isActive && 'nav-link--active',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<a
+  class={classes}
+  href={href}
+  aria-current={isActive ? 'page' : undefined}
+  {...rest}
+>
+  <slot />
+</a>
+
+<style>
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nav-link-gap, var(--space-2));
+
+    /* Typography */
+    font-family: var(--nav-link-font-family, var(--font-family-sans));
+    font-size: var(--nav-link-font-size, var(--font-size-base));
+    font-weight: var(--nav-link-font-weight, var(--font-weight-medium));
+    text-decoration: var(--nav-link-decoration, none);
+
+    /* Colors */
+    color: var(--nav-link-color, var(--color-text-secondary));
+
+    /* Spacing */
+    padding: var(--nav-link-padding, var(--space-2) var(--space-3));
+
+    /* Shape */
+    border-radius: var(--nav-link-border-radius, var(--radius-md));
+
+    /* Transition */
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--nav-link-hover-color, var(--color-text-primary));
+    background-color: var(--nav-link-hover-bg, var(--color-bg-secondary));
+    text-decoration: var(--nav-link-hover-decoration, none);
+  }
+
+  .nav-link--active {
+    color: var(--nav-link-active-color, var(--color-primary-600));
+    background-color: var(--nav-link-active-bg, var(--color-primary-50));
+  }
+
+  .nav-link--active:hover {
+    color: var(--nav-link-active-hover-color, var(--color-primary-700));
+    background-color: var(--nav-link-active-hover-bg, var(--color-primary-100));
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+</style>

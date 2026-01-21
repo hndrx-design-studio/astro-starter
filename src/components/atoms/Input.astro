@@ -1,0 +1,181 @@
+---
+/**
+ * Input Component (Atom)
+ *
+ * A flexible, unstyled input field that adapts to your design system.
+ * All visual properties are controlled via CSS custom properties.
+ *
+ * @example
+ * <Input name="email" type="email" placeholder="Enter email" />
+ * <Input name="message" as="textarea" rows={4} />
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --input-padding, --input-font-size, --input-border-radius
+ * --input-bg, --input-color, --input-border-color
+ * --input-focus-border-color, --input-focus-ring-color
+ */
+
+interface Props {
+  /** Input name attribute */
+  name: string;
+  /** Input type */
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date';
+  /** Render as textarea instead of input */
+  as?: 'input' | 'textarea';
+  /** Placeholder text */
+  placeholder?: string;
+  /** Input value */
+  value?: string | number;
+  /** Required field */
+  required?: boolean;
+  /** Disabled state */
+  disabled?: boolean;
+  /** Read-only state */
+  readonly?: boolean;
+  /** Error state */
+  error?: boolean;
+  /** Input size variant */
+  size?: 'sm' | 'md' | 'lg';
+  /** Additional CSS classes */
+  class?: string;
+  /** Number of rows (for textarea) */
+  rows?: number;
+  [key: string]: any;
+}
+
+const {
+  name,
+  type = 'text',
+  as: Element = 'input',
+  placeholder,
+  value,
+  required = false,
+  disabled = false,
+  readonly = false,
+  error = false,
+  size = 'md',
+  class: className = '',
+  rows = 3,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  'input',
+  `input--${size}`,
+  error && 'input--error',
+  disabled && 'input--disabled',
+  className,
+].filter(Boolean).join(' ');
+---
+
+{Element === 'textarea' ? (
+  <textarea
+    class={classes}
+    name={name}
+    placeholder={placeholder}
+    required={required}
+    disabled={disabled}
+    readonly={readonly}
+    rows={rows}
+    {...rest}
+  >{value}</textarea>
+) : (
+  <input
+    class={classes}
+    type={type}
+    name={name}
+    placeholder={placeholder}
+    value={value}
+    required={required}
+    disabled={disabled}
+    readonly={readonly}
+    {...rest}
+  />
+)}
+
+<style>
+  .input {
+    display: block;
+    width: 100%;
+
+    /* Typography */
+    font-family: var(--input-font-family, var(--font-family-sans));
+    line-height: var(--input-line-height, var(--line-height-normal));
+
+    /* Colors */
+    color: var(--input-color, var(--color-text-primary));
+    background-color: var(--input-bg, var(--color-bg-primary));
+
+    /* Border */
+    border: var(--input-border-width, 1px) solid
+            var(--input-border-color, var(--color-border-default));
+    border-radius: var(--input-border-radius, var(--radius-md));
+
+    /* Transition */
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  /* ============================================
+     Size Variants
+     ============================================ */
+
+  .input--sm {
+    padding: var(--input-padding-sm, var(--space-2) var(--space-3));
+    font-size: var(--input-font-size-sm, var(--font-size-sm));
+  }
+
+  .input--md {
+    padding: var(--input-padding-md, var(--space-2) var(--space-4));
+    font-size: var(--input-font-size-md, var(--font-size-base));
+  }
+
+  .input--lg {
+    padding: var(--input-padding-lg, var(--space-3) var(--space-4));
+    font-size: var(--input-font-size-lg, var(--font-size-lg));
+  }
+
+  /* ============================================
+     States
+     ============================================ */
+
+  .input::placeholder {
+    color: var(--input-placeholder-color, var(--color-text-tertiary));
+  }
+
+  .input:hover:not(:disabled):not(:focus) {
+    border-color: var(--input-hover-border-color, var(--color-border-strong));
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--input-focus-border-color, var(--color-border-focus));
+    box-shadow: 0 0 0 var(--input-focus-ring-width, 3px)
+                var(--input-focus-ring-color, rgba(14, 165, 233, 0.15));
+  }
+
+  .input--error {
+    border-color: var(--input-error-border-color, var(--color-error-500));
+  }
+
+  .input--error:focus {
+    border-color: var(--input-error-border-color, var(--color-error-500));
+    box-shadow: 0 0 0 var(--input-focus-ring-width, 3px)
+                var(--input-error-ring-color, rgba(239, 68, 68, 0.15));
+  }
+
+  .input--disabled,
+  .input:disabled {
+    opacity: var(--input-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    background-color: var(--input-disabled-bg, var(--color-bg-secondary));
+  }
+
+  /* Textarea specific */
+  textarea.input {
+    resize: var(--textarea-resize, vertical);
+    min-height: var(--textarea-min-height, 80px);
+  }
+</style>

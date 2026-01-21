@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Main CSS Entry Point
+   ==========================================================================
+   This file imports all stylesheets in the correct order.
+   Import this file in your Astro layouts to apply global styles.
+
+   Order of imports:
+   1. Design tokens (CSS variables)
+   2. Base styles (reset, global)
+   3. Design system utilities (typography, spacing, layout)
+   4. Component overrides (optional, for customizing library components)
+   ========================================================================== */
+
+/* ==========================================================================
+   1. Design System Tokens
+   ==========================================================================
+   Core design tokens that define the visual language.
+   Override these in a custom file to rebrand the entire site.
+   ========================================================================== */
+
+@import './design-system/tokens.css';
+
+/* ==========================================================================
+   2. Base Styles
+   ==========================================================================
+   Reset and foundational element styles.
+   ========================================================================== */
+
+@import './base/reset.css';
+@import './base/global.css';
+
+/* ==========================================================================
+   3. Design System Utilities
+   ==========================================================================
+   Typography classes, spacing utilities, and layout helpers.
+   ========================================================================== */
+
+@import './design-system/typography.css';
+@import './design-system/spacing.css';
+@import './design-system/layout.css';
+
+/* ==========================================================================
+   4. Component Overrides (Optional)
+   ==========================================================================
+   Override component library defaults by setting CSS variables.
+   Create and import override files here to customize components.
+
+   Example:
+   @import './overrides/buttons.css';
+   @import './overrides/cards.css';
+   ========================================================================== */
+
+/* ==========================================================================
+   Custom Project Styles
+   ==========================================================================
+   Add your project-specific styles below, or import additional files.
+   ========================================================================== */

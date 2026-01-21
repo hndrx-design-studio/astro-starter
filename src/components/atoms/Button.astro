@@ -1,0 +1,192 @@
+---
+/**
+ * Button Component (Atom)
+ *
+ * A flexible, unstyled button that adapts to your design system.
+ * All visual properties are controlled via CSS custom properties.
+ *
+ * @example
+ * <Button>Click me</Button>
+ * <Button variant="secondary" size="lg">Large Secondary</Button>
+ * <Button as="a" href="/about">Link Button</Button>
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --btn-font-family, --btn-font-weight, --btn-border-radius
+ * --btn-padding-{sm|md|lg}, --btn-font-size-{sm|md|lg}
+ * --btn-{variant}-bg, --btn-{variant}-color, --btn-{variant}-border
+ */
+
+interface Props {
+  /** Button style variant */
+  variant?: 'primary' | 'secondary' | 'ghost';
+  /** Button size */
+  size?: 'sm' | 'md' | 'lg';
+  /** Render as a different element (e.g., 'a' for links) */
+  as?: 'button' | 'a';
+  /** Button type (for button element) */
+  type?: 'button' | 'submit' | 'reset';
+  /** Disabled state */
+  disabled?: boolean;
+  /** Full width button */
+  fullWidth?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+  /** Link href (when as="a") */
+  href?: string;
+  [key: string]: any;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  as: Element = 'button',
+  type = 'button',
+  disabled = false,
+  fullWidth = false,
+  class: className = '',
+  href,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  'btn',
+  `btn--${variant}`,
+  `btn--${size}`,
+  fullWidth && 'btn--full-width',
+  disabled && 'btn--disabled',
+  className,
+].filter(Boolean).join(' ');
+---
+
+{Element === 'a' ? (
+  <a class={classes} href={href} {...rest}>
+    <slot />
+  </a>
+) : (
+  <button class={classes} type={type} disabled={disabled} {...rest}>
+    <slot />
+  </button>
+)}
+
+<style>
+  .btn {
+    /* Base styles */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--btn-gap, var(--space-2));
+
+    /* Typography */
+    font-family: var(--btn-font-family, var(--font-family-sans));
+    font-weight: var(--btn-font-weight, var(--font-weight-medium));
+    text-decoration: none;
+    white-space: nowrap;
+
+    /* Shape */
+    border-radius: var(--btn-border-radius, var(--radius-md));
+    border-width: var(--btn-border-width, 1px);
+    border-style: solid;
+
+    /* Interaction */
+    cursor: pointer;
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast),
+      color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  /* ============================================
+     Size Variants
+     ============================================ */
+
+  .btn--sm {
+    padding: var(--btn-padding-sm, var(--space-2) var(--space-3));
+    font-size: var(--btn-font-size-sm, var(--font-size-sm));
+    min-height: var(--btn-min-height-sm, 32px);
+  }
+
+  .btn--md {
+    padding: var(--btn-padding-md, var(--space-2) var(--space-4));
+    font-size: var(--btn-font-size-md, var(--font-size-base));
+    min-height: var(--btn-min-height-md, 40px);
+  }
+
+  .btn--lg {
+    padding: var(--btn-padding-lg, var(--space-3) var(--space-6));
+    font-size: var(--btn-font-size-lg, var(--font-size-lg));
+    min-height: var(--btn-min-height-lg, 48px);
+  }
+
+  /* ============================================
+     Style Variants
+     ============================================ */
+
+  /* Primary */
+  .btn--primary {
+    background-color: var(--btn-primary-bg, var(--color-primary-600));
+    color: var(--btn-primary-color, var(--color-neutral-0));
+    border-color: var(--btn-primary-border, var(--color-primary-600));
+  }
+
+  .btn--primary:hover:not(.btn--disabled) {
+    background-color: var(--btn-primary-bg-hover, var(--color-primary-700));
+    border-color: var(--btn-primary-border-hover, var(--color-primary-700));
+  }
+
+  .btn--primary:active:not(.btn--disabled) {
+    background-color: var(--btn-primary-bg-active, var(--color-primary-800));
+    border-color: var(--btn-primary-border-active, var(--color-primary-800));
+  }
+
+  /* Secondary */
+  .btn--secondary {
+    background-color: var(--btn-secondary-bg, transparent);
+    color: var(--btn-secondary-color, var(--color-text-primary));
+    border-color: var(--btn-secondary-border, var(--color-border-strong));
+  }
+
+  .btn--secondary:hover:not(.btn--disabled) {
+    background-color: var(--btn-secondary-bg-hover, var(--color-bg-secondary));
+    border-color: var(--btn-secondary-border-hover, var(--color-border-strong));
+  }
+
+  .btn--secondary:active:not(.btn--disabled) {
+    background-color: var(--btn-secondary-bg-active, var(--color-bg-tertiary));
+  }
+
+  /* Ghost */
+  .btn--ghost {
+    background-color: var(--btn-ghost-bg, transparent);
+    color: var(--btn-ghost-color, var(--color-text-primary));
+    border-color: var(--btn-ghost-border, transparent);
+  }
+
+  .btn--ghost:hover:not(.btn--disabled) {
+    background-color: var(--btn-ghost-bg-hover, var(--color-bg-secondary));
+  }
+
+  .btn--ghost:active:not(.btn--disabled) {
+    background-color: var(--btn-ghost-bg-active, var(--color-bg-tertiary));
+  }
+
+  /* ============================================
+     States
+     ============================================ */
+
+  .btn--full-width {
+    width: 100%;
+  }
+
+  .btn--disabled {
+    opacity: var(--btn-disabled-opacity, 0.5);
+    cursor: not-allowed;
+  }
+
+  /* Focus visible for accessibility */
+  .btn:focus-visible {
+    outline: 2px solid var(--btn-focus-ring-color, var(--color-border-focus));
+    outline-offset: 2px;
+  }
+</style>

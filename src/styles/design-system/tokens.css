@@ -1,0 +1,365 @@
+/* ==========================================================================
+   Design Tokens - Relume Figma Kit Integration
+   ==========================================================================
+   Core design tokens aligned with the Relume Figma Kit (v. 3.7).
+   These tokens enable seamless Figma-to-code workflow.
+
+   Structure:
+   - Primitives: Raw color values (from Primitives-tokens.json)
+   - Color Schemes: Semantic color assignments (from Color-Schemes-tokens.json)
+   - UI Styles: Border radius and stroke (from UIStyles-tokens.json)
+   - Typography: Font sizes with responsive variants
+   - Spacing: Layout and section spacing
+
+   Customization: Override these values to match your Figma design system.
+   ========================================================================== */
+
+:root {
+  /* ==========================================================================
+     Color Primitives (from Figma: Primitives-tokens.json)
+     ==========================================================================
+     Raw color values. Use semantic colors below for actual styling.
+     ========================================================================== */
+
+  /* Neutral Scale - Relume naming convention */
+  --color-white: #FFFFFF;
+  --color-neutral-lightest: #EEEEEE;
+  --color-neutral-lighter: #CCCCCC;
+  --color-neutral-light: #AAAAAA;
+  --color-neutral: #666666;
+  --color-neutral-dark: #444444;
+  --color-neutral-darker: #222222;
+  --color-neutral-darkest: #000000;
+
+  /* Opacity Variants - White (from Figma) */
+  --color-transparent: rgba(255, 255, 255, 0);
+  --color-white-5: rgba(255, 255, 255, 0.05);
+  --color-white-10: rgba(255, 255, 255, 0.10);
+  --color-white-15: rgba(255, 255, 255, 0.15);
+  --color-white-20: rgba(255, 255, 255, 0.20);
+  --color-white-30: rgba(255, 255, 255, 0.30);
+  --color-white-40: rgba(255, 255, 255, 0.40);
+  --color-white-50: rgba(255, 255, 255, 0.50);
+  --color-white-60: rgba(255, 255, 255, 0.60);
+
+  /* Opacity Variants - Black/Neutral Darkest (from Figma) */
+  --color-black-5: rgba(0, 0, 0, 0.05);
+  --color-black-10: rgba(0, 0, 0, 0.10);
+  --color-black-15: rgba(0, 0, 0, 0.15);
+  --color-black-20: rgba(0, 0, 0, 0.20);
+  --color-black-30: rgba(0, 0, 0, 0.30);
+  --color-black-40: rgba(0, 0, 0, 0.40);
+  --color-black-50: rgba(0, 0, 0, 0.50);
+  --color-black-60: rgba(0, 0, 0, 0.60);
+
+  /* ==========================================================================
+     Color Scheme 1 (from Figma: Color-Schemes-tokens.json)
+     ==========================================================================
+     Semantic color assignments for light mode.
+     Override these to create different color schemes or themes.
+     ========================================================================== */
+
+  /* Text Colors */
+  --color-text: var(--color-neutral-darkest);
+  --color-text-primary: var(--color-neutral-darkest);
+  --color-text-secondary: var(--color-neutral);
+  --color-text-tertiary: var(--color-neutral-light);
+  --color-text-inverse: var(--color-white);
+
+  /* Foreground (icons, UI elements) */
+  --color-foreground: var(--color-white);
+
+  /* Background Colors */
+  --color-background: var(--color-white);
+  --color-bg-primary: var(--color-white);
+  --color-bg-secondary: var(--color-neutral-lightest);
+  --color-bg-tertiary: var(--color-neutral-lighter);
+  --color-bg-inverse: var(--color-neutral-darkest);
+
+  /* Border Colors */
+  --color-border: var(--color-neutral-darkest);
+  --color-border-default: var(--color-neutral-lighter);
+  --color-border-strong: var(--color-neutral-light);
+  --color-border-focus: var(--color-neutral-darkest);
+
+  /* Accent Color */
+  --color-accent: var(--color-neutral-darkest);
+
+  /* Link Colors */
+  --color-text-link: var(--color-neutral-darkest);
+  --color-text-link-hover: var(--color-neutral-dark);
+
+  /* ==========================================================================
+     Extended Color Palette (for customization)
+     ==========================================================================
+     These can be customized for brand colors.
+     Relume uses neutral by default - override with your brand colors.
+     ========================================================================== */
+
+  /* Primary palette - customize for your brand */
+  --color-primary: var(--color-neutral-darkest);
+  --color-primary-light: var(--color-neutral-dark);
+  --color-primary-dark: var(--color-neutral-darkest);
+
+  /* Semantic colors - Success */
+  --color-success: #22C55E;
+  --color-success-light: #DCFCE7;
+  --color-success-dark: #16A34A;
+
+  /* Semantic colors - Warning */
+  --color-warning: #EAB308;
+  --color-warning-light: #FEF9C3;
+  --color-warning-dark: #CA8A04;
+
+  /* Semantic colors - Error */
+  --color-error: #EF4444;
+  --color-error-light: #FEE2E2;
+  --color-error-dark: #DC2626;
+
+  /* ==========================================================================
+     Typography Scale - Desktop (from Figma: Typography-Desktop-tokens.json)
+     ==========================================================================
+     Font sizes with mobile overrides via media queries.
+     ========================================================================== */
+
+  /* Font families */
+  --font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                      Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-serif: Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-family-mono: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono',
+                      Menlo, Courier, monospace;
+
+  /* Heading sizes - Desktop (from Figma) */
+  --text-size-h1: 3.5rem;      /* 56px */
+  --text-size-h2: 3rem;        /* 48px */
+  --text-size-h3: 2.5rem;      /* 40px */
+  --text-size-h4: 2rem;        /* 32px */
+  --text-size-h5: 1.5rem;      /* 24px */
+  --text-size-h6: 1.25rem;     /* 20px */
+
+  /* Body text sizes - Desktop (from Figma) */
+  --text-size-large: 1.25rem;  /* 20px */
+  --text-size-medium: 1.125rem; /* 18px */
+  --text-size-regular: 1rem;   /* 16px */
+  --text-size-small: 0.875rem; /* 14px */
+  --text-size-tiny: 0.75rem;   /* 12px */
+
+  /* Legacy font size aliases (for backwards compatibility) */
+  --font-size-xs: var(--text-size-tiny);
+  --font-size-sm: var(--text-size-small);
+  --font-size-base: var(--text-size-regular);
+  --font-size-lg: var(--text-size-medium);
+  --font-size-xl: var(--text-size-large);
+  --font-size-2xl: var(--text-size-h5);
+  --font-size-3xl: var(--text-size-h4);
+  --font-size-4xl: var(--text-size-h3);
+  --font-size-5xl: var(--text-size-h2);
+  --font-size-6xl: var(--text-size-h1);
+
+  /* Font weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-none: 1;
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 2;
+
+  /* Letter spacing */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+
+  /* ==========================================================================
+     Spacing Scale (from Figma: Spacing-and-Sizing tokens)
+     ==========================================================================
+     Base spacing scale and semantic spacing tokens.
+     ========================================================================== */
+
+  /* Base spacing scale (4px grid) */
+  --space-0: 0;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  --space-28: 7rem;     /* 112px */
+  --space-32: 8rem;     /* 128px */
+
+  /* Page Padding - Desktop (from Figma: padding-global = 64px) */
+  --padding-global: 4rem;      /* 64px */
+
+  /* Section Padding - Desktop (from Figma) */
+  --padding-section-large: 7rem;   /* 112px */
+  --padding-section-medium: 5rem;  /* 80px */
+  --padding-section-small: 3rem;   /* 48px */
+
+  /* Container Max Widths (from Figma) */
+  --container-large: 80rem;    /* 1280px */
+  --container-medium: 64rem;   /* 1024px */
+  --container-small: 48rem;    /* 768px */
+
+  /* Max Width Scale (from Figma) */
+  --max-width-xxlarge: 80rem;  /* 1280px */
+  --max-width-xlarge: 64rem;   /* 1024px */
+  --max-width-large: 48rem;    /* 768px */
+  --max-width-medium: 35rem;   /* 560px */
+  --max-width-small: 30rem;    /* 480px */
+  --max-width-xsmall: 25rem;   /* 400px */
+  --max-width-xxsmall: 20rem;  /* 320px */
+
+  /* Legacy layout aliases */
+  --container-max-width: var(--container-large);
+  --container-padding: var(--padding-global);
+  --content-max-width: 65ch;
+
+  /* ==========================================================================
+     UI Styles (from Figma: UIStyles-tokens.json)
+     ==========================================================================
+     Border radius and stroke widths.
+     ========================================================================== */
+
+  /* Border Radius (from Figma - default is 0 for Relume unstyled) */
+  --radius-small: 0;
+  --radius-medium: 0;
+  --radius-large: 0;
+
+  /* Legacy radius aliases (customize these for rounded designs) */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.375rem;  /* 6px */
+  --radius-lg: 0.5rem;    /* 8px */
+  --radius-xl: 0.75rem;   /* 12px */
+  --radius-2xl: 1rem;     /* 16px */
+  --radius-3xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;
+
+  /* Stroke Widths (from Figma) */
+  --stroke-border-width: 1px;
+  --stroke-divider-width: 1px;
+
+  /* ==========================================================================
+     Shadows
+     ========================================================================== */
+
+  --shadow-xs: 0 1px 2px 0 var(--color-black-5);
+  --shadow-sm: 0 1px 3px 0 var(--color-black-10), 0 1px 2px -1px var(--color-black-10);
+  --shadow-md: 0 4px 6px -1px var(--color-black-10), 0 2px 4px -2px var(--color-black-10);
+  --shadow-lg: 0 10px 15px -3px var(--color-black-10), 0 4px 6px -4px var(--color-black-10);
+  --shadow-xl: 0 20px 25px -5px var(--color-black-10), 0 8px 10px -6px var(--color-black-10);
+  --shadow-2xl: 0 25px 50px -12px var(--color-black-30);
+  --shadow-inner: inset 0 2px 4px 0 var(--color-black-5);
+  --shadow-none: 0 0 #0000;
+
+  /* ==========================================================================
+     Transitions
+     ========================================================================== */
+
+  --duration-instant: 0ms;
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --transition-fast: var(--duration-fast) var(--ease-in-out);
+  --transition-normal: var(--duration-normal) var(--ease-in-out);
+  --transition-slow: var(--duration-slow) var(--ease-in-out);
+
+  /* ==========================================================================
+     Z-Index Scale
+     ========================================================================== */
+
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* ==========================================================================
+   Mobile Breakpoint Overrides (from Figma: Mobile tokens)
+   ==========================================================================
+   Responsive typography and spacing for smaller screens.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  :root {
+    /* Typography - Mobile (from Figma: Typography-Mobile-tokens.json) */
+    --text-size-h1: 2.5rem;      /* 40px */
+    --text-size-h2: 2.25rem;     /* 36px */
+    --text-size-h3: 2rem;        /* 32px */
+    --text-size-h4: 1.5rem;      /* 24px */
+    --text-size-h5: 1.25rem;     /* 20px */
+    --text-size-h6: 1.125rem;    /* 18px */
+
+    --text-size-large: 1.125rem; /* 18px */
+    --text-size-medium: 1rem;    /* 16px */
+    --text-size-regular: 1rem;   /* 16px */
+    /* small and tiny remain the same */
+
+    /* Spacing - Mobile (from Figma: Spacing-and-Sizing-Mobile-tokens.json) */
+    --padding-global: 1.25rem;         /* 20px */
+    --padding-section-large: 4rem;     /* 64px */
+    --padding-section-medium: 3rem;    /* 48px */
+    --padding-section-small: 2rem;     /* 32px */
+  }
+}
+
+/* ==========================================================================
+   Dark Mode (Optional)
+   ==========================================================================
+   Uncomment to enable automatic dark mode based on system preference.
+   Override Color Scheme tokens for dark theme.
+   ========================================================================== */
+
+/*
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: var(--color-white);
+    --color-text-primary: var(--color-white);
+    --color-text-secondary: var(--color-neutral-light);
+    --color-text-tertiary: var(--color-neutral);
+    --color-text-inverse: var(--color-neutral-darkest);
+
+    --color-foreground: var(--color-neutral-darkest);
+
+    --color-background: var(--color-neutral-darkest);
+    --color-bg-primary: var(--color-neutral-darkest);
+    --color-bg-secondary: var(--color-neutral-darker);
+    --color-bg-tertiary: var(--color-neutral-dark);
+    --color-bg-inverse: var(--color-white);
+
+    --color-border: var(--color-white);
+    --color-border-default: var(--color-neutral-dark);
+    --color-border-strong: var(--color-neutral);
+    --color-border-focus: var(--color-white);
+
+    --color-accent: var(--color-white);
+
+    --color-text-link: var(--color-white);
+    --color-text-link-hover: var(--color-neutral-lighter);
+  }
+}
+*/

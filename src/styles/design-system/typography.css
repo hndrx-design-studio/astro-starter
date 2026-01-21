@@ -1,0 +1,362 @@
+/* ==========================================================================
+   Typography System - Relume Figma Kit Integration
+   ==========================================================================
+   Typography styles aligned with the Relume Figma Kit.
+   Uses responsive font sizes from Typography-Desktop/Mobile tokens.
+
+   Classes follow Relume naming for seamless Figma component imports:
+   - .heading-1 through .heading-6
+   - .text-large, .text-medium, .text-regular, .text-small, .text-tiny
+   ========================================================================== */
+
+/* ==========================================================================
+   Heading Styles (H1-H6)
+   ==========================================================================
+   Font sizes automatically adjust based on breakpoint via CSS variables.
+   ========================================================================== */
+
+.heading-1,
+h1 {
+  font-family: var(--heading-font-family, var(--font-family-sans));
+  font-size: var(--text-size-h1);
+  font-weight: var(--heading-1-weight, var(--font-weight-bold));
+  line-height: var(--heading-1-line-height, var(--line-height-tight));
+  letter-spacing: var(--heading-1-letter-spacing, var(--letter-spacing-tight));
+  color: var(--heading-color, var(--color-text-primary));
+}
+
+.heading-2,
+h2 {
+  font-family: var(--heading-font-family, var(--font-family-sans));
+  font-size: var(--text-size-h2);
+  font-weight: var(--heading-2-weight, var(--font-weight-bold));
+  line-height: var(--heading-2-line-height, var(--line-height-tight));
+  letter-spacing: var(--heading-2-letter-spacing, var(--letter-spacing-tight));
+  color: var(--heading-color, var(--color-text-primary));
+}
+
+.heading-3,
+h3 {
+  font-family: var(--heading-font-family, var(--font-family-sans));
+  font-size: var(--text-size-h3);
+  font-weight: var(--heading-3-weight, var(--font-weight-bold));
+  line-height: var(--heading-3-line-height, var(--line-height-snug));
+  letter-spacing: var(--heading-3-letter-spacing, var(--letter-spacing-normal));
+  color: var(--heading-color, var(--color-text-primary));
+}
+
+.heading-4,
+h4 {
+  font-family: var(--heading-font-family, var(--font-family-sans));
+  font-size: var(--text-size-h4);
+  font-weight: var(--heading-4-weight, var(--font-weight-bold));
+  line-height: var(--heading-4-line-height, var(--line-height-snug));
+  letter-spacing: var(--heading-4-letter-spacing, var(--letter-spacing-normal));
+  color: var(--heading-color, var(--color-text-primary));
+}
+
+.heading-5,
+h5 {
+  font-family: var(--heading-font-family, var(--font-family-sans));
+  font-size: var(--text-size-h5);
+  font-weight: var(--heading-5-weight, var(--font-weight-bold));
+  line-height: var(--heading-5-line-height, var(--line-height-normal));
+  letter-spacing: var(--heading-5-letter-spacing, var(--letter-spacing-normal));
+  color: var(--heading-color, var(--color-text-primary));
+}
+
+.heading-6,
+h6 {
+  font-family: var(--heading-font-family, var(--font-family-sans));
+  font-size: var(--text-size-h6);
+  font-weight: var(--heading-6-weight, var(--font-weight-bold));
+  line-height: var(--heading-6-line-height, var(--line-height-normal));
+  letter-spacing: var(--heading-6-letter-spacing, var(--letter-spacing-normal));
+  color: var(--heading-color, var(--color-text-primary));
+}
+
+/* ==========================================================================
+   Body Text Styles (Relume naming convention)
+   ==========================================================================
+   Text classes matching Figma token names for direct import compatibility.
+   ========================================================================== */
+
+.text-large {
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-large);
+  font-weight: var(--text-large-weight, var(--font-weight-normal));
+  line-height: var(--text-large-line-height, var(--line-height-relaxed));
+  color: var(--body-color, var(--color-text-primary));
+}
+
+.text-medium {
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-medium);
+  font-weight: var(--text-medium-weight, var(--font-weight-normal));
+  line-height: var(--text-medium-line-height, var(--line-height-normal));
+  color: var(--body-color, var(--color-text-primary));
+}
+
+.text-regular {
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-regular);
+  font-weight: var(--text-regular-weight, var(--font-weight-normal));
+  line-height: var(--text-regular-line-height, var(--line-height-normal));
+  color: var(--body-color, var(--color-text-primary));
+}
+
+.text-small {
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-small);
+  font-weight: var(--text-small-weight, var(--font-weight-normal));
+  line-height: var(--text-small-line-height, var(--line-height-normal));
+  color: var(--body-color, var(--color-text-secondary));
+}
+
+.text-tiny {
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-tiny);
+  font-weight: var(--text-tiny-weight, var(--font-weight-normal));
+  line-height: var(--text-tiny-line-height, var(--line-height-normal));
+  color: var(--body-color, var(--color-text-tertiary));
+}
+
+/* ==========================================================================
+   Legacy Body Aliases (backwards compatibility)
+   ========================================================================== */
+
+.body-large { 
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-large);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--body-color, var(--color-text-primary));
+}
+
+.body-base {
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-regular);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--body-color, var(--color-text-primary));
+}
+
+.body-small {
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-small);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--body-color, var(--color-text-secondary));
+}
+
+.body-xs {
+  font-family: var(--body-font-family, var(--font-family-sans));
+  font-size: var(--text-size-tiny);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--body-color, var(--color-text-tertiary));
+}
+
+/* ==========================================================================
+   Display Styles (Large Headlines)
+   ========================================================================== */
+
+.display-1 {
+  font-family: var(--display-font-family, var(--font-family-sans));
+  font-size: calc(var(--text-size-h1) * 1.25);
+  font-weight: var(--display-1-weight, var(--font-weight-bold));
+  line-height: var(--display-1-line-height, var(--line-height-none));
+  letter-spacing: var(--display-1-letter-spacing, var(--letter-spacing-tighter));
+  color: var(--display-color, var(--color-text-primary));
+}
+
+.display-2 {
+  font-family: var(--display-font-family, var(--font-family-sans));
+  font-size: calc(var(--text-size-h1) * 1.1);
+  font-weight: var(--display-2-weight, var(--font-weight-bold));
+  line-height: var(--display-2-line-height, var(--line-height-none));
+  letter-spacing: var(--display-2-letter-spacing, var(--letter-spacing-tight));
+  color: var(--display-color, var(--color-text-primary));
+}
+
+/* ==========================================================================
+   Prose (Long-form Content)
+   ========================================================================== */
+
+.prose {
+  font-family: var(--prose-font-family, var(--font-family-sans));
+  font-size: var(--prose-font-size, var(--text-size-regular));
+  line-height: var(--prose-line-height, var(--line-height-relaxed));
+  color: var(--prose-color, var(--color-text-primary));
+  max-width: var(--prose-max-width, var(--content-max-width));
+}
+
+.prose > * + * {
+  margin-top: var(--prose-spacing, var(--space-6));
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  margin-top: var(--prose-heading-margin-top, var(--space-12));
+  margin-bottom: var(--prose-heading-margin-bottom, var(--space-4));
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+.prose h1 { font-size: var(--text-size-h3); }
+.prose h2 { font-size: var(--text-size-h4); }
+.prose h3 { font-size: var(--text-size-h5); }
+.prose h4 { font-size: var(--text-size-h6); }
+.prose h5 { font-size: var(--text-size-large); }
+.prose h6 { font-size: var(--text-size-medium); }
+
+.prose p {
+  margin-top: var(--prose-paragraph-spacing, var(--space-4));
+  margin-bottom: var(--prose-paragraph-spacing, var(--space-4));
+}
+
+.prose a {
+  color: var(--prose-link-color, var(--color-text-link));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: var(--prose-link-hover-color, var(--color-text-link-hover));
+}
+
+.prose strong {
+  font-weight: var(--font-weight-semibold);
+}
+
+.prose blockquote {
+  padding-left: var(--space-4);
+  border-left: var(--stroke-border-width) solid var(--color-border-strong);
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: var(--space-6);
+}
+
+.prose li {
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.prose code {
+  font-family: var(--font-family-mono);
+  font-size: 0.875em;
+  background-color: var(--color-bg-tertiary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.prose pre {
+  background-color: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+/* Text Transform */
+.text-uppercase {
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+/* Text Overflow */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Text Alignment */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* Font Weight Utilities */
+.font-light { font-weight: var(--font-weight-light); }
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+/* Text Color Utilities */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-inverse { color: var(--color-text-inverse); }
+.text-accent { color: var(--color-accent); }
+
+/* ==========================================================================
+   Label & Caption Styles
+   ========================================================================== */
+
+.label {
+  font-family: var(--label-font-family, var(--font-family-sans));
+  font-size: var(--label-font-size, var(--text-size-small));
+  font-weight: var(--label-font-weight, var(--font-weight-medium));
+  line-height: var(--label-line-height, var(--line-height-normal));
+  color: var(--label-color, var(--color-text-secondary));
+}
+
+.caption {
+  font-family: var(--caption-font-family, var(--font-family-sans));
+  font-size: var(--caption-font-size, var(--text-size-tiny));
+  font-weight: var(--caption-font-weight, var(--font-weight-normal));
+  line-height: var(--caption-line-height, var(--line-height-normal));
+  color: var(--caption-color, var(--color-text-tertiary));
+}
+
+/* Overline (small uppercase label) */
+.overline {
+  font-family: var(--overline-font-family, var(--font-family-sans));
+  font-size: var(--overline-font-size, var(--text-size-tiny));
+  font-weight: var(--overline-font-weight, var(--font-weight-semibold));
+  line-height: var(--overline-line-height, var(--line-height-normal));
+  letter-spacing: var(--overline-letter-spacing, var(--letter-spacing-wider));
+  text-transform: uppercase;
+  color: var(--overline-color, var(--color-text-tertiary));
+}
+
+/* Tagline (often used in Relume components) */
+.tagline {
+  font-family: var(--tagline-font-family, var(--font-family-sans));
+  font-size: var(--tagline-font-size, var(--text-size-regular));
+  font-weight: var(--tagline-font-weight, var(--font-weight-semibold));
+  line-height: var(--tagline-line-height, var(--line-height-normal));
+  color: var(--tagline-color, var(--color-text-primary));
+}
