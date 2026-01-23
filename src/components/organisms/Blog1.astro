@@ -1,0 +1,188 @@
+---
+/**
+ * Blog1 Component (Organism)
+ *
+ * Displays a grid of blog posts using BlogCard1 components.
+ * Ideal for blog listing pages or featured posts sections.
+ *
+ * Naming: Blog1 follows Relume naming convention.
+ * - Blog1: Grid layout for blog posts (this component)
+ *
+ * @example
+ * <Blog1
+ *   title="Latest Posts"
+ *   subtitle="Stay up to date with our latest articles"
+ *   posts={posts}
+ *   columns={3}
+ * />
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --blog1-gap, --blog1-card-*
+ */
+
+import Section from './Section.astro';
+import BlogCard1 from '@molecules/BlogCard1.astro';
+
+interface Post {
+  /** Post slug for URL */
+  slug: string;
+  /** Post data */
+  data: {
+    title: string;
+    description: string;
+    pubDate: Date;
+    heroImage?: string;
+    author?: string;
+  };
+  /** Category info (resolved reference) */
+  category?: {
+    slug: string;
+    data: {
+      name: string;
+      color?: string;
+    };
+  };
+}
+
+interface Props {
+  /** Section title */
+  title?: string;
+  /** Section subtitle */
+  subtitle?: string;
+  /** Array of posts to display */
+  posts: Post[];
+  /** Number of columns (2 or 3) */
+  columns?: 2 | 3;
+  /** Card style variant */
+  cardVariant?: 'elevated' | 'outlined' | 'filled';
+  /** Section size (vertical padding) */
+  size?: 'sm' | 'md' | 'lg';
+  /** Override top padding */
+  paddingTop?: 'none' | 'sm' | 'md' | 'lg';
+  /** Override bottom padding */
+  paddingBottom?: 'none' | 'sm' | 'md' | 'lg';
+  /** Background variant */
+  background?: 'default' | 'muted' | 'primary' | 'dark';
+  /** Center the section heading */
+  centerHeading?: boolean;
+  /** Base URL for blog posts */
+  baseUrl?: string;
+  /** Additional CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  title,
+  subtitle,
+  posts,
+  columns = 3,
+  cardVariant = 'elevated',
+  size = 'md',
+  paddingTop,
+  paddingBottom,
+  background = 'default',
+  centerHeading = false,
+  baseUrl = '/blog',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+// Build padding classes
+const paddingClasses = [
+  paddingTop && `padding-top-${paddingTop}`,
+  paddingBottom && `padding-bottom-${paddingBottom}`,
+].filter(Boolean).join(' ');
+
+const gridClass = [
+  'blog1_grid',
+  `blog1_grid--cols-${columns}`,
+].join(' ');
+
+const sectionClasses = [
+  'blog1',
+  paddingClasses,
+  className,
+].filter(Boolean).join(' ');
+---
+
+<Section 
+  title={title}
+  subtitle={subtitle}
+  size={size} 
+  background={background}
+  centerHeading={centerHeading}
+  class={sectionClasses}
+  {...rest}
+>
+  {posts.length > 0 ? (
+    <div class={gridClass}>
+      {posts.map((post) => (
+        <BlogCard1
+          title={post.data.title}
+          description={post.data.description}
+          href={`${baseUrl}/${post.slug}`}
+          imageSrc={post.data.heroImage}
+          imageAlt={post.data.title}
+          category={post.category?.data.name}
+          categoryHref={post.category ? `/category/${post.category.slug}` : undefined}
+          categoryColor={post.category?.data.color}
+          pubDate={post.data.pubDate}
+          author={post.data.author}
+          variant={cardVariant}
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="blog1_empty">No posts found.</p>
+  )}
+  
+  <!-- Slot for additional content (e.g., pagination) -->
+  <slot />
+</Section>
+
+<style>
+  /* Padding override classes */
+  .padding-top-none { padding-top: 0 !important; }
+  .padding-top-sm { padding-top: var(--padding-section-small) !important; }
+  .padding-top-md { padding-top: var(--padding-section-medium) !important; }
+  .padding-top-lg { padding-top: var(--padding-section-large) !important; }
+  
+  .padding-bottom-none { padding-bottom: 0 !important; }
+  .padding-bottom-sm { padding-bottom: var(--padding-section-small) !important; }
+  .padding-bottom-md { padding-bottom: var(--padding-section-medium) !important; }
+  .padding-bottom-lg { padding-bottom: var(--padding-section-large) !important; }
+
+  .blog1_grid {
+    display: grid;
+    gap: var(--blog1-gap, var(--space-8));
+  }
+
+  .blog1_grid--cols-2 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .blog1_grid--cols-3 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @media (min-width: 640px) {
+    .blog1_grid--cols-2,
+    .blog1_grid--cols-3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blog1_grid--cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .blog1_empty {
+    text-align: center;
+    color: var(--color-text-secondary);
+    padding: var(--space-12) 0;
+  }
+</style>

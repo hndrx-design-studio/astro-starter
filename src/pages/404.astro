@@ -1,0 +1,47 @@
+---
+/**
+ * 404 Error Page
+ * 
+ * Custom 404 page that displays when a page is not found.
+ * Astro automatically uses this file for all 404 responses.
+ */
+
+import MinimalLayout from '@templates/MinimalLayout.astro';
+import Button from '@atoms/Button.astro';
+---
+
+<MinimalLayout title="Page Not Found">
+  <div class="error-404">
+    <h1 class="error-404_title">404</h1>
+    <p class="error-404_message">Page Not Found</p>
+    <p class="error-404_description">Sorry, the page you're looking for doesn't exist.</p>
+    <Button variant="primary" as="a" href="/">Go Home</Button>
+  </div>
+</MinimalLayout>
+
+<style>
+  .error-404 {
+    text-align: center;
+    padding: var(--space-6);
+  }
+  
+  .error-404_title {
+    font-size: var(--text-size-h1);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--space-4) 0;
+    color: var(--color-text-primary);
+  }
+  
+  .error-404_message {
+    font-size: var(--text-size-h3);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-2) 0;
+    color: var(--color-text-primary);
+  }
+  
+  .error-404_description {
+    font-size: var(--text-size-regular);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-6) 0;
+  }
+</style>

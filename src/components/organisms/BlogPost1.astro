@@ -1,0 +1,348 @@
+---
+/**
+ * BlogPost1 Component (Organism)
+ *
+ * Displays a single blog post with hero image, meta information,
+ * and prose-styled content area.
+ *
+ * Naming: BlogPost1 follows Relume naming convention.
+ * - BlogPost1: Standard blog post layout (this component)
+ *
+ * @example
+ * <BlogPost1
+ *   title="My Blog Post"
+ *   pubDate={new Date()}
+ *   category="Tutorials"
+ *   categoryHref="/category/tutorials"
+ *   heroImage="/images/hero.jpg"
+ * >
+ *   <Content />
+ * </BlogPost1>
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --blogpost1-max-width, --blogpost1-hero-height
+ */
+
+import Badge from '@atoms/Badge.astro';
+import Button from '@atoms/Button.astro';
+
+interface Props {
+  /** Post title */
+  title: string;
+  /** Publication date */
+  pubDate: Date;
+  /** Updated date */
+  updatedDate?: Date;
+  /** Hero image URL */
+  heroImage?: string;
+  /** Category name */
+  category?: string;
+  /** Category link */
+  categoryHref?: string;
+  /** Category color */
+  categoryColor?: string;
+  /** Author name */
+  author?: string;
+  /** Back link URL */
+  backUrl?: string;
+  /** Back link text */
+  backText?: string;
+  /** Additional CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  title,
+  pubDate,
+  updatedDate,
+  heroImage,
+  category,
+  categoryHref,
+  categoryColor,
+  author = 'Admin',
+  backUrl = '/blog',
+  backText = '← Back to Blog',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const formattedPubDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdateDate = updatedDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const classes = [
+  'blogpost1',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<article class={classes} {...rest}>
+  {heroImage && (
+    <div class="blogpost1_hero">
+      <img src={heroImage} alt={title} class="blogpost1_hero-image" />
+    </div>
+  )}
+
+  <div class="blogpost1_container">
+    <header class="blogpost1_header">
+      <div class="blogpost1_meta">
+        {category && (
+          categoryHref ? (
+            <a href={categoryHref} class="blogpost1_category-link">
+              <Badge variant="default" style={categoryColor ? `--badge-bg: ${categoryColor}; --badge-color: white;` : ''}>
+                {category}
+              </Badge>
+            </a>
+          ) : (
+            <Badge variant="default" style={categoryColor ? `--badge-bg: ${categoryColor}; --badge-color: white;` : ''}>
+              {category}
+            </Badge>
+          )
+        )}
+        
+        <time class="blogpost1_date" datetime={pubDate.toISOString()}>
+          {formattedPubDate}
+        </time>
+        
+        {author && (
+          <span class="blogpost1_author">by {author}</span>
+        )}
+      </div>
+
+      <h1 class="blogpost1_title">{title}</h1>
+
+      {updatedDate && (
+        <p class="blogpost1_updated">
+          Last updated: <time datetime={updatedDate.toISOString()}>{formattedUpdateDate}</time>
+        </p>
+      )}
+    </header>
+
+    <div class="blogpost1_content prose">
+      <slot />
+    </div>
+
+    <footer class="blogpost1_footer">
+      <Button variant="ghost" as="a" href={backUrl}>
+        {backText}
+      </Button>
+    </footer>
+  </div>
+</article>
+
+<style>
+  .blogpost1 {
+    width: 100%;
+  }
+
+  /* ============================================
+     Hero Image
+     ============================================ */
+
+  .blogpost1_hero {
+    width: 100%;
+    height: var(--blogpost1-hero-height, 400px);
+    overflow: hidden;
+    background-color: var(--color-bg-secondary);
+  }
+
+  @media (min-width: 768px) {
+    .blogpost1_hero {
+      height: var(--blogpost1-hero-height-md, 500px);
+    }
+  }
+
+  .blogpost1_hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ============================================
+     Container
+     ============================================ */
+
+  .blogpost1_container {
+    max-width: var(--blogpost1-max-width, 65ch);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .blogpost1_container {
+      padding: var(--space-12) var(--space-6);
+    }
+  }
+
+  /* ============================================
+     Header
+     ============================================ */
+
+  .blogpost1_header {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .blogpost1_meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-4);
+  }
+
+  .blogpost1_category-link {
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+  }
+
+  .blogpost1_category-link:hover {
+    opacity: 0.8;
+  }
+
+  .blogpost1_date {
+    font-size: var(--text-size-small);
+    color: var(--color-text-secondary);
+  }
+
+  .blogpost1_author {
+    font-size: var(--text-size-small);
+    color: var(--color-text-secondary);
+  }
+
+  .blogpost1_title {
+    font-family: var(--blogpost1-title-font, var(--font-family-sans));
+    font-size: var(--blogpost1-title-size, var(--text-size-h1));
+    font-weight: var(--blogpost1-title-weight, var(--font-weight-bold));
+    line-height: var(--line-height-tight);
+    margin: 0;
+    color: var(--blogpost1-title-color, var(--color-text-primary));
+  }
+
+  .blogpost1_updated {
+    font-size: var(--text-size-small);
+    color: var(--color-text-tertiary);
+    margin: var(--space-4) 0 0 0;
+  }
+
+  /* ============================================
+     Content (Prose Styles)
+     ============================================ */
+
+  .blogpost1_content {
+    /* Prose styles for markdown content */
+  }
+
+  .blogpost1_content :global(h2) {
+    font-size: var(--text-size-h2);
+    font-weight: var(--font-weight-bold);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+    line-height: var(--line-height-tight);
+  }
+
+  .blogpost1_content :global(h3) {
+    font-size: var(--text-size-h3);
+    font-weight: var(--font-weight-semibold);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+    line-height: var(--line-height-tight);
+  }
+
+  .blogpost1_content :global(h4) {
+    font-size: var(--text-size-h4);
+    font-weight: var(--font-weight-semibold);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+  }
+
+  .blogpost1_content :global(p) {
+    margin-bottom: var(--space-4);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .blogpost1_content :global(ul),
+  .blogpost1_content :global(ol) {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .blogpost1_content :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .blogpost1_content :global(blockquote) {
+    border-left: 4px solid var(--color-primary-500);
+    padding-left: var(--space-4);
+    margin: var(--space-6) 0;
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+
+  .blogpost1_content :global(pre) {
+    background-color: var(--color-neutral-900);
+    color: var(--color-neutral-100);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--space-6) 0;
+    font-size: var(--text-size-small);
+  }
+
+  .blogpost1_content :global(code) {
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+  }
+
+  .blogpost1_content :global(:not(pre) > code) {
+    background-color: var(--color-bg-secondary);
+    padding: 0.2em 0.4em;
+    border-radius: var(--radius-sm);
+  }
+
+  .blogpost1_content :global(a) {
+    color: var(--color-primary-600);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--transition-fast);
+  }
+
+  .blogpost1_content :global(a:hover) {
+    color: var(--color-primary-700);
+  }
+
+  .blogpost1_content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    margin: var(--space-6) 0;
+  }
+
+  .blogpost1_content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--color-border-default);
+    margin: var(--space-8) 0;
+  }
+
+  /* ============================================
+     Footer
+     ============================================ */
+
+  .blogpost1_footer {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border-default);
+  }
+</style>

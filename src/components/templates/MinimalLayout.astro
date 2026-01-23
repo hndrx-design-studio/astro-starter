@@ -1,0 +1,89 @@
+---
+/**
+ * MinimalLayout Component (Template)
+ *
+ * A minimal layout template without header or footer.
+ * Ideal for error pages, standalone pages, or simple content.
+ *
+ * @example
+ * ---
+ * import MinimalLayout from '@/components/templates/MinimalLayout.astro';
+ * ---
+ *
+ * <MinimalLayout title="Error">
+ *   <div>Simple content here</div>
+ * </MinimalLayout>
+ *
+ * @customization
+ * Override CSS variables in your main.css to customize.
+ */
+
+interface Props {
+  /** Page title (appears in browser tab) */
+  title: string;
+  /** Page meta description */
+  description?: string;
+  /** Additional classes for body */
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description = 'A modern Astro starter template with a vanilla CSS design system.',
+  bodyClass = '',
+} = Astro.props;
+
+// Site configuration - customize these for your project
+const siteConfig = {
+  name: 'Astro Starter',
+  url: Astro.site || 'https://example.com',
+};
+
+const fullTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.name;
+const canonical = Astro.url.href;
+
+import '@styles/main.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonical} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Generator -->
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Additional head content -->
+    <slot name="head" />
+  </head>
+
+  <body class={bodyClass}>
+    <slot />
+
+    <!-- Additional body scripts -->
+    <slot name="scripts" />
+  </body>
+</html>
+
+<style is:global>
+  /* Center content vertically and horizontally */
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+</style>

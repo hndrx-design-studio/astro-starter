@@ -19,7 +19,11 @@ export { default as Card1 } from './Card1.astro';
 export { default as Card2 } from './Card2.astro';
 export { default as Card3 } from './Card3.astro';
 
+// Blog molecules
+export { default as BlogCard1 } from './BlogCard1.astro';
+export { default as CategoryCard1 } from './CategoryCard1.astro';
+
 // Single-implementation molecules
 export { default as FormField } from './FormField.astro';
 export { default as NavLink } from './NavLink.astro';
-export { default as TeamMember } from './TeamMember.astro';
+export { default as TeamMember1 } from './TeamMember1.astro';

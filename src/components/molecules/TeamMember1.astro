@@ -1,12 +1,17 @@
 ---
 /**
- * TeamMember Component (Molecule)
+ * TeamMember1 Component (Molecule)
  *
  * Displays a team member card with avatar, name, role, and optional bio.
  * Combines Avatar atom with text elements.
  *
+ * Naming: TeamMember1 follows Relume naming convention.
+ * - TeamMember1: Vertical card layout (this component)
+ * - TeamMember2: Would be horizontal layout
+ * - TeamMember3: Would be card with social links
+ *
  * @example
- * <TeamMember 
+ * <TeamMember1 
  *   name="Jane Doe"
  *   role="CEO & Founder"
  *   image="/images/jane.jpg"
@@ -15,7 +20,7 @@
  *
  * @customization
  * Override these CSS variables to customize:
- * --team-member-gap, --team-member-text-align
+ * --team-member1-gap, --team-member1-text-align
  */
 
 import Avatar from '@atoms/Avatar.astro';
@@ -50,8 +55,8 @@ const {
 } = Astro.props;
 
 const classes = [
-  'team-member',
-  `team-member--${align}`,
+  'team-member1',
+  `team-member1_${align}`,
   className,
 ].filter(Boolean).join(' ');
 ---
@@ -61,33 +66,33 @@ const classes = [
     src={image} 
     alt={name} 
     size={avatarSize}
-    class="team-member__avatar"
+    class="team-member1_avatar"
   />
-  <div class="team-member__info">
-    <h3 class="team-member__name">{name}</h3>
-    <p class="team-member__role">{role}</p>
-    {bio && <p class="team-member__bio">{bio}</p>}
+  <div class="team-member1_info">
+    <h3 class="team-member1_name">{name}</h3>
+    <p class="team-member1_role">{role}</p>
+    {bio && <p class="team-member1_bio">{bio}</p>}
   </div>
   <slot />
 </article>
 
 <style>
-  .team-member {
+  .team-member1 {
     display: flex;
     flex-direction: column;
-    gap: var(--team-member-gap, var(--space-4));
+    gap: var(--team-member1-gap, var(--space-4));
   }
 
   /* ============================================
      Alignment Variants
      ============================================ */
 
-  .team-member--center {
+  .team-member1_center {
     align-items: center;
     text-align: center;
   }
 
-  .team-member--left {
+  .team-member1_left {
     align-items: flex-start;
     text-align: left;
   }
@@ -96,39 +101,39 @@ const classes = [
      Elements
      ============================================ */
 
-  .team-member__avatar {
+  .team-member1_avatar {
     margin-bottom: var(--space-2);
   }
 
-  .team-member__info {
+  .team-member1_info {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
   }
 
-  .team-member__name {
-    font-family: var(--team-member-name-font, var(--font-family-sans));
-    font-size: var(--team-member-name-size, var(--text-size-h6));
-    font-weight: var(--team-member-name-weight, var(--font-weight-semibold));
+  .team-member1_name {
+    font-family: var(--team-member1-name-font, var(--font-family-sans));
+    font-size: var(--team-member1-name-size, var(--text-size-h6));
+    font-weight: var(--team-member1-name-weight, var(--font-weight-semibold));
     line-height: var(--line-height-tight);
     margin: 0;
-    color: var(--team-member-name-color, var(--color-text-primary));
+    color: var(--team-member1-name-color, var(--color-text-primary));
   }
 
-  .team-member__role {
-    font-size: var(--team-member-role-size, var(--text-size-small));
-    color: var(--team-member-role-color, var(--color-text-secondary));
+  .team-member1_role {
+    font-size: var(--team-member1-role-size, var(--text-size-small));
+    color: var(--team-member1-role-color, var(--color-text-secondary));
     margin: 0;
   }
 
-  .team-member__bio {
-    font-size: var(--team-member-bio-size, var(--text-size-small));
-    color: var(--team-member-bio-color, var(--color-text-secondary));
+  .team-member1_bio {
+    font-size: var(--team-member1-bio-size, var(--text-size-small));
+    color: var(--team-member1-bio-color, var(--color-text-secondary));
     margin: var(--space-2) 0 0 0;
     max-width: 30ch;
   }
 
-  .team-member--center .team-member__bio {
+  .team-member1_center .team-member1_bio {
     margin-left: auto;
     margin-right: auto;
   }

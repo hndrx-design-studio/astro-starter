@@ -30,3 +30,8 @@ export { default as Team1 } from './Team1.astro';
 export { default as Layout1 } from './Layout1.astro';
 export { default as CTA1 } from './CTA1.astro';
 export { default as CTA2 } from './CTA2.astro';
+
+// Blog Organisms
+export { default as Blog1 } from './Blog1.astro';
+export { default as BlogPost1 } from './BlogPost1.astro';
+export { default as CategoryGrid1 } from './CategoryGrid1.astro';

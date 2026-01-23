@@ -1,0 +1,54 @@
+---
+/**
+ * Single Blog Post Page
+ * 
+ * Dynamic route that renders individual blog posts.
+ * Uses getStaticPaths to pre-render all blog posts at build time.
+ */
+
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@templates/BaseLayout.astro';
+import BlogPost1 from '@organisms/BlogPost1.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.draft !== true;
+  });
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+// Helper to get clean slug from category id
+const getCategorySlug = (id: string) => id.replace(/\.md$/, '');
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Resolve the category reference
+const category = await getEntry(post.data.category);
+const categorySlug = category ? getCategorySlug(category.id) : undefined;
+---
+
+<BaseLayout 
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.heroImage}
+>
+  <main>
+    <BlogPost1
+      title={post.data.title}
+      pubDate={post.data.pubDate}
+      updatedDate={post.data.updatedDate}
+      heroImage={post.data.heroImage}
+      category={category?.data.name}
+      categoryHref={categorySlug ? `/category/${categorySlug}` : undefined}
+      categoryColor={category?.data.color}
+      author={post.data.author}
+    >
+      <Content />
+    </BlogPost1>
+  </main>
+</BaseLayout>

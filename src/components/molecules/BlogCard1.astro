@@ -1,0 +1,276 @@
+---
+/**
+ * BlogCard1 Component (Molecule)
+ *
+ * A card designed specifically for blog post previews with image,
+ * category badge, date, title, and excerpt.
+ *
+ * Naming: BlogCard1 follows Relume naming convention.
+ * - BlogCard1: Vertical card with image top (this component)
+ *
+ * @example
+ * <BlogCard1
+ *   title="Getting Started"
+ *   description="Learn the basics..."
+ *   href="/blog/getting-started"
+ *   imageSrc="/images/post.jpg"
+ *   category="Tutorials"
+ *   categoryHref="/category/tutorials"
+ *   pubDate={new Date('2026-01-15')}
+ * />
+ *
+ * @customization
+ * Override these CSS variables to customize:
+ * --blogcard1-bg, --blogcard1-padding, --blogcard1-border-radius
+ */
+
+import Badge from '@atoms/Badge.astro';
+
+interface Props {
+  /** Post title */
+  title: string;
+  /** Post description/excerpt */
+  description: string;
+  /** Link to full post */
+  href: string;
+  /** Hero image source URL */
+  imageSrc?: string;
+  /** Image alt text */
+  imageAlt?: string;
+  /** Category name */
+  category?: string;
+  /** Category page link */
+  categoryHref?: string;
+  /** Category color for badge */
+  categoryColor?: string;
+  /** Publication date */
+  pubDate?: Date;
+  /** Author name */
+  author?: string;
+  /** Card style variant */
+  variant?: 'elevated' | 'outlined' | 'filled';
+  /** Additional CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  title,
+  description,
+  href,
+  imageSrc,
+  imageAlt = '',
+  category,
+  categoryHref,
+  categoryColor,
+  pubDate,
+  author,
+  variant = 'elevated',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const classes = [
+  'blogcard1',
+  `blogcard1--${variant}`,
+  className,
+].filter(Boolean).join(' ');
+
+// Format date
+const formattedDate = pubDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<article class={classes} {...rest}>
+  {imageSrc && (
+    <a href={href} class="blogcard1_image-link">
+      <div class="blogcard1_image-wrapper">
+        <img src={imageSrc} alt={imageAlt} class="blogcard1_image" loading="lazy" />
+      </div>
+    </a>
+  )}
+
+  <div class="blogcard1_content">
+    <div class="blogcard1_meta">
+      {category && (
+        categoryHref ? (
+          <a href={categoryHref} class="blogcard1_category-link">
+            <Badge variant="default" style={categoryColor ? `--badge-bg: ${categoryColor}; --badge-color: white;` : ''}>
+              {category}
+            </Badge>
+          </a>
+        ) : (
+          <Badge variant="default" style={categoryColor ? `--badge-bg: ${categoryColor}; --badge-color: white;` : ''}>
+            {category}
+          </Badge>
+        )
+      )}
+      {formattedDate && (
+        <time class="blogcard1_date" datetime={pubDate?.toISOString()}>
+          {formattedDate}
+        </time>
+      )}
+    </div>
+
+    <a href={href} class="blogcard1_title-link">
+      <h3 class="blogcard1_title">{title}</h3>
+    </a>
+
+    <p class="blogcard1_description">{description}</p>
+
+    <div class="blogcard1_footer">
+      {author && (
+        <span class="blogcard1_author">By {author}</span>
+      )}
+      <a href={href} class="blogcard1_readmore">
+        Read more →
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .blogcard1 {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--blogcard1-border-radius, var(--radius-lg));
+    height: 100%;
+  }
+
+  /* ============================================
+     Variant Styles
+     ============================================ */
+
+  .blogcard1--elevated {
+    background-color: var(--blogcard1-elevated-bg, var(--color-bg-primary));
+    box-shadow: var(--blogcard1-elevated-shadow, var(--shadow-md));
+  }
+
+  .blogcard1--outlined {
+    background-color: var(--blogcard1-outlined-bg, var(--color-bg-primary));
+    border: var(--blogcard1-border-width, 1px) solid
+            var(--blogcard1-border-color, var(--color-border-default));
+  }
+
+  .blogcard1--filled {
+    background-color: var(--blogcard1-filled-bg, var(--color-bg-secondary));
+  }
+
+  /* ============================================
+     Image
+     ============================================ */
+
+  .blogcard1_image-link {
+    display: block;
+    overflow: hidden;
+  }
+
+  .blogcard1_image-wrapper {
+    aspect-ratio: var(--blogcard1-image-aspect, 16/9);
+    overflow: hidden;
+  }
+
+  .blogcard1_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+  }
+
+  .blogcard1_image-link:hover .blogcard1_image {
+    transform: scale(1.05);
+  }
+
+  /* ============================================
+     Content
+     ============================================ */
+
+  .blogcard1_content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--blogcard1-padding, var(--space-6));
+    flex: 1;
+  }
+
+  .blogcard1_meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .blogcard1_category-link {
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+  }
+
+  .blogcard1_category-link:hover {
+    opacity: 0.8;
+  }
+
+  .blogcard1_date {
+    font-size: var(--text-size-small);
+    color: var(--color-text-tertiary);
+  }
+
+  .blogcard1_title-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .blogcard1_title {
+    font-family: var(--blogcard1-title-font, var(--font-family-sans));
+    font-size: var(--blogcard1-title-size, var(--text-size-h5));
+    font-weight: var(--blogcard1-title-weight, var(--font-weight-semibold));
+    line-height: var(--line-height-tight);
+    margin: 0;
+    color: var(--blogcard1-title-color, var(--color-text-primary));
+    transition: color var(--transition-fast);
+  }
+
+  .blogcard1_title-link:hover .blogcard1_title {
+    color: var(--color-primary-600);
+  }
+
+  .blogcard1_description {
+    font-size: var(--blogcard1-description-size, var(--text-size-regular));
+    line-height: var(--line-height-relaxed);
+    color: var(--blogcard1-description-color, var(--color-text-secondary));
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .blogcard1_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: auto;
+    padding-top: var(--space-2);
+  }
+
+  .blogcard1_author {
+    font-size: var(--text-size-small);
+    color: var(--color-text-tertiary);
+  }
+
+  .blogcard1_readmore {
+    font-size: var(--text-size-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary-600);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .blogcard1_readmore:hover {
+    color: var(--color-primary-700);
+  }
+</style>

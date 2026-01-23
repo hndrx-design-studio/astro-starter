@@ -8,6 +8,7 @@
  */
 
 // Re-export all template components for easy importing
-// Usage: import { BaseLayout } from '@/components/templates';
+// Usage: import { BaseLayout, MinimalLayout } from '@/components/templates';
 
 export { default as BaseLayout } from './BaseLayout.astro';
+export { default as MinimalLayout } from './MinimalLayout.astro';

@@ -1,0 +1,77 @@
+---
+/**
+ * Single Category Page
+ * 
+ * Dynamic route that displays all posts in a specific category.
+ * Uses getStaticPaths to pre-render all category pages at build time.
+ */
+
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@templates/BaseLayout.astro';
+import Blog1 from '@organisms/Blog1.astro';
+import Hero1 from '@organisms/Hero1.astro';
+import Button from '@atoms/Button.astro';
+
+export async function getStaticPaths() {
+  const categories = await getCollection('categories');
+  
+  return categories.map((category) => ({
+    params: { slug: category.id.replace(/\.md$/, '') },
+    props: { category },
+  }));
+}
+
+// Helper to get clean slug from category id
+const getCategorySlug = (id: string) => id.replace(/\.md$/, '');
+
+const { category } = Astro.props;
+const categorySlug = getCategorySlug(category.id);
+
+// Get all non-draft posts in this category
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.draft !== true && data.category.id === category.id;
+});
+
+// Sort by date (newest first)
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Format posts with category data for Blog1
+const postsWithCategory = sortedPosts.map((post) => ({
+  slug: post.slug,
+  data: post.data,
+  category: {
+    slug: categorySlug,
+    data: category.data,
+  },
+}));
+
+const postCount = postsWithCategory.length;
+---
+
+<BaseLayout 
+  title={`${category.data.name} - Category`}
+  description={category.data.description}
+>
+  <main>
+    <Hero1
+      tagline={`${postCount} ${postCount === 1 ? 'post' : 'posts'}`}
+      heading={category.data.name}
+      description={category.data.description}
+      size="sm"
+      background="muted"
+    >
+      <Button variant="ghost" as="a" href="/categories">
+        ← All Categories
+      </Button>
+    </Hero1>
+
+    <Blog1
+      posts={postsWithCategory}
+      columns={3}
+      cardVariant="elevated"
+      size="lg"
+    />
+  </main>
+</BaseLayout>

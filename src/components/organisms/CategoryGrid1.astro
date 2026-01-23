@@ -1,41 +1,39 @@
 ---
 /**
- * Team1 Component (Organism)
+ * CategoryGrid1 Component (Organism)
  *
- * Displays a team members grid. Commonly used for about pages,
- * team pages, or leadership sections.
+ * Displays a grid of categories using CategoryCard1 components.
+ * Ideal for category listing pages or sidebar navigation.
  *
- * Naming: Team1 follows Relume naming convention.
- * - Team1: Simple avatar grid (this component)
- * - Team2: Would be team with cards
- * - Team3: Would be team with social links
+ * Naming: CategoryGrid1 follows Relume naming convention.
+ * - CategoryGrid1: Grid layout for categories (this component)
  *
  * @example
- * <Team1
- *   title="Our Team"
- *   members={[
- *     { name: 'Jane Doe', role: 'CEO', image: '/images/jane.jpg' },
- *     { name: 'John Smith', role: 'CTO', image: '/images/john.jpg' },
- *   ]}
+ * <CategoryGrid1
+ *   title="Categories"
+ *   subtitle="Browse posts by topic"
+ *   categories={categories}
  * />
  *
  * @customization
  * Override these CSS variables to customize:
- * --team1-gap, --team1-member-*, avatar variables
+ * --categorygrid1-gap, --categorygrid1-card-*
  */
 
 import Section from './Section.astro';
-import TeamMember1 from '@molecules/TeamMember1.astro';
+import CategoryCard1 from '@molecules/CategoryCard1.astro';
 
-interface Member {
-  /** Team member name */
-  name: string;
-  /** Team member role/title */
-  role: string;
-  /** Avatar image URL */
-  image?: string;
-  /** Short bio */
-  bio?: string;
+interface Category {
+  /** Category slug for URL */
+  slug: string;
+  /** Category data */
+  data: {
+    name: string;
+    description?: string;
+    color?: string;
+  };
+  /** Number of posts in this category */
+  postCount?: number;
 }
 
 interface Props {
@@ -43,12 +41,12 @@ interface Props {
   title?: string;
   /** Section subtitle */
   subtitle?: string;
-  /** Array of team members */
-  members: Member[];
-  /** Number of columns (2, 3, or 4) */
-  columns?: 2 | 3 | 4;
-  /** Avatar size */
-  avatarSize?: 'md' | 'lg' | 'xl';
+  /** Array of categories to display */
+  categories: Category[];
+  /** Number of columns (2 or 3) */
+  columns?: 2 | 3;
+  /** Card style variant */
+  cardVariant?: 'elevated' | 'outlined' | 'filled';
   /** Section size (vertical padding) */
   size?: 'sm' | 'md' | 'lg';
   /** Override top padding */
@@ -57,8 +55,10 @@ interface Props {
   paddingBottom?: 'none' | 'sm' | 'md' | 'lg';
   /** Background variant */
   background?: 'default' | 'muted' | 'primary' | 'dark';
-  /** Center alignment */
-  centered?: boolean;
+  /** Center the section heading */
+  centerHeading?: boolean;
+  /** Base URL for categories */
+  baseUrl?: string;
   /** Additional CSS classes */
   class?: string;
   [key: string]: any;
@@ -67,14 +67,15 @@ interface Props {
 const {
   title,
   subtitle,
-  members,
-  columns = 4,
-  avatarSize = 'xl',
+  categories,
+  columns = 2,
+  cardVariant = 'outlined',
   size = 'md',
   paddingTop,
   paddingBottom,
   background = 'default',
-  centered = true,
+  centerHeading = false,
+  baseUrl = '/category',
   class: className = '',
   ...rest
 } = Astro.props;
@@ -86,12 +87,12 @@ const paddingClasses = [
 ].filter(Boolean).join(' ');
 
 const gridClass = [
-  'team1_grid',
-  `team1_grid--cols-${columns}`,
+  'categorygrid1_grid',
+  `categorygrid1_grid--cols-${columns}`,
 ].join(' ');
 
 const sectionClasses = [
-  'team1',
+  'categorygrid1',
   paddingClasses,
   className,
 ].filter(Boolean).join(' ');
@@ -102,22 +103,26 @@ const sectionClasses = [
   subtitle={subtitle}
   size={size} 
   background={background}
-  centerHeading={centered}
+  centerHeading={centerHeading}
   class={sectionClasses}
   {...rest}
 >
-  <div class={gridClass}>
-    {members.map((member) => (
-      <TeamMember1
-        name={member.name}
-        role={member.role}
-        image={member.image}
-        bio={member.bio}
-        avatarSize={avatarSize}
-        align={centered ? 'center' : 'left'}
-      />
-    ))}
-  </div>
+  {categories.length > 0 ? (
+    <div class={gridClass}>
+      {categories.map((category) => (
+        <CategoryCard1
+          name={category.data.name}
+          description={category.data.description}
+          href={`${baseUrl}/${category.slug}`}
+          postCount={category.postCount}
+          color={category.data.color}
+          variant={cardVariant}
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="categorygrid1_empty">No categories found.</p>
+  )}
   
   <!-- Slot for additional content -->
   <slot />
@@ -135,41 +140,35 @@ const sectionClasses = [
   .padding-bottom-md { padding-bottom: var(--padding-section-medium) !important; }
   .padding-bottom-lg { padding-bottom: var(--padding-section-large) !important; }
 
-  .team1_grid {
+  .categorygrid1_grid {
     display: grid;
-    gap: var(--team1-gap, var(--space-8));
+    gap: var(--categorygrid1-gap, var(--space-6));
   }
 
-  .team1_grid--cols-2 {
+  .categorygrid1_grid--cols-2 {
     grid-template-columns: repeat(1, 1fr);
   }
 
-  .team1_grid--cols-3 {
+  .categorygrid1_grid--cols-3 {
     grid-template-columns: repeat(1, 1fr);
-  }
-
-  .team1_grid--cols-4 {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   @media (min-width: 640px) {
-    .team1_grid--cols-2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .team1_grid--cols-3,
-    .team1_grid--cols-4 {
+    .categorygrid1_grid--cols-2,
+    .categorygrid1_grid--cols-3 {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   @media (min-width: 1024px) {
-    .team1_grid--cols-3 {
+    .categorygrid1_grid--cols-3 {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
 
-    .team1_grid--cols-4 {
-      grid-template-columns: repeat(4, 1fr);
-    }
+  .categorygrid1_empty {
+    text-align: center;
+    color: var(--color-text-secondary);
+    padding: var(--space-12) 0;
   }
 </style>
